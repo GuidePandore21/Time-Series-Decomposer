@@ -121,3 +121,28 @@ class TimeSeriesDecomposer:
             curseur += 1
         
         return res
+    
+    def remainder(self, trend, seasonality):
+        """Calcul le remainder sur la liste des données de la classe, de la Trend et de la Seasonality
+
+        Args:
+            trend ([float]): résultat de la fonction Trend = Trend liste
+            seasonality ([float]): résultat de la fonction Seasonality = Seasonality liste
+
+        Returns:
+            [float]: Remainder liste
+        """
+        res = []
+        for i in range(len(self.datas)):
+            if trend[i] is None:
+                res.append(None)
+            else:
+                if self.type == "additive":
+                    res.append(self.datas[i] - trend[i] - seasonality[i])
+                if self.type == "multiplicative":
+                    try:
+                        res.append(self.datas[i] / (trend[i] * seasonality[i]))
+                    except:
+                        print("Division par zéro")
+                        res.append(None)
+        return res
