@@ -55,3 +55,27 @@ class TimeSeriesDecomposer:
                 else:
                     result.append(None)
         return result
+    
+    def detrend(self, resultTrend):
+        """Calcul la DeTrend sur les résultats de la fonction Trend() et la liste des données de la classe et la renvoie
+
+        Args:
+            resultTrend ([float]): résultats de la fontion Trend
+
+        Returns:
+            [float]: DeTrend liste
+        """
+        res = []
+        for i in range(len(self.datas)):
+            if resultTrend[i] == None:
+               res.append(None)
+            else:
+                if self.type == "additive":
+                    res.append(self.datas[i] - resultTrend[i])
+                if self.type == "multiplicative":
+                    try:
+                        res.append(self.datas[i] / resultTrend[i])
+                    except:
+                        print("Division par zéro")
+                        res.append(None)
+        return res
