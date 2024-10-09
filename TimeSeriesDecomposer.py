@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 class TimeSeriesDecomposer:
     def __init__(self, datas, type, window) -> None:
         """Constructeur de la classe TimeSeriesDecomposer
@@ -170,3 +172,44 @@ class TimeSeriesDecomposer:
         result["remainder"] = self.remainder(result["trend"], result["seasonality"])
         
         return result
+    
+    def displayResultDecomposition(self):
+        """Affiche les différents graphiques des différentes étapes de la décomposition
+        """
+        decomposition = self.decomposition()
+
+        x = range(len(self.datas))
+
+        # Créer une figure avec un affichage 2, 2, 1
+        plt.figure(figsize=(10, 15))
+
+        # Premier graphique (Données Initiales) - 1ère ligne, 1ère colonne
+        plt.subplot(3, 2, 1)  # 3 lignes, 2 colonnes, 1ère position
+        plt.plot(x, decomposition["datas"])
+        plt.title('Données Initiales')
+
+        # Deuxième graphique (Trend) - 1ère ligne, 2ème colonne
+        plt.subplot(3, 2, 2)  # 3 lignes, 2 colonnes, 2ème position
+        plt.plot(x, decomposition["trend"])
+        plt.title('Trend')
+
+        # Troisième graphique (DeTrend) - 2ème ligne, 1ère colonne
+        plt.subplot(3, 2, 3)  # 3 lignes, 2 colonnes, 3ème position
+        plt.plot(x, decomposition["detrend"])
+        plt.title('DeTrend')
+
+        # Quatrième graphique (Seasonality) - 2ème ligne, 2ème colonne
+        plt.subplot(3, 2, 4)  # 3 lignes, 2 colonnes, 4ème position
+        plt.plot(x, decomposition["seasonality"])
+        plt.title('Seasonality')
+
+        # Cinquième graphique (Remainder) - 3ème ligne, sur toute la largeur (colspan)
+        plt.subplot(3, 1, 3)  # 3 lignes, 1 colonne, 3ème position (toute la largeur)
+        plt.plot(x, decomposition["remainder"])
+        plt.title('Remainder')
+
+        # Ajuster l'espacement entre les graphiques
+        plt.subplots_adjust(hspace=0.5)  # Ajuster l'espacement vertical
+
+        # Afficher tous les graphiques
+        plt.show()
