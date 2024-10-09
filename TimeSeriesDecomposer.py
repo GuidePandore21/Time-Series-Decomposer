@@ -79,3 +79,45 @@ class TimeSeriesDecomposer:
                         print("Division par zéro")
                         res.append(None)
         return res
+    
+    def seasonality(self):
+        """Calcul la Seasonality sur la liste des données de la classe et la renvoie
+
+        Returns:
+            [float]: Seasonality liste
+        """
+        res = []
+        cut = []
+        seasonality = []
+        temp = []
+        
+        for i in range(self.window, len(self.datas), self.window):
+            for j in range(self.window, 0, -1):
+                temp.append(self.datas[i - j])
+            cut.append(temp)
+            temp = []
+            if i + self.window > len(self.datas):
+                for k in range(i, len(self.datas)):
+                    temp.append(self.datas[k])
+                cut.append(temp)
+        
+        
+        for j in range(self.window):
+            somme = 0
+            diviseur = 0
+            for i in range(len(cut)):
+                try:
+                    somme += cut[i][j] 
+                    diviseur += 1
+                except:
+                    pass
+            seasonality.append(somme / diviseur)
+        
+        curseur = 0
+        for i in range(len(self.datas)):
+            if curseur == self.window: 
+                curseur = 0
+            res.append(seasonality[curseur])
+            curseur += 1
+        
+        return res
