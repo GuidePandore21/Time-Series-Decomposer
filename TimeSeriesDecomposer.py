@@ -146,3 +146,27 @@ class TimeSeriesDecomposer:
                         print("Division par zéro")
                         res.append(None)
         return res
+    
+    def decomposition(self):
+        """Appelle toutes les fonctions relative à la décomposition pour retourner un dictionnaire des résultats de chaque fonction
+
+        Returns:
+            [dict]: dictionnaire des résultats de toutes les fonctions étapes de la décomposition
+        """
+        result = {}
+        # Datas
+        result["datas"] = self.datas
+        
+        # Estimation de la tendance
+        result["trend"] = self.trend()
+        
+        # Suppression de la tendance
+        result["detrend"] = self.detrend(result["trend"])
+        
+        # Estimate the seasonality
+        result["seasonality"] = self.seasonality()
+        
+        # Estimate the remainder
+        result["remainder"] = self.remainder(result["trend"], result["seasonality"])
+        
+        return result
