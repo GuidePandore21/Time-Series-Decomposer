@@ -8,7 +8,7 @@ Time Series Decomposer est une classe Python permettant de décomposer une séri
 Clonez ce dépôt sur votre machine locale :
 
 ```bash
-  git clone https://github.com/yourusername/TimeSeriesDecomposer.git
+  git clone https://github.com/GuidePandore21/TimeSeriesDecomposer.git
 ```
     
 ## Features
